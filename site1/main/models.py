@@ -10,13 +10,21 @@ yesNo = (
 )
 
 class DistrictAndCity(mM):
+    """ Tuman va Shahar nomlari """
     name = m.CharField(max_length=length, verbose_name="Tuman yoki Shaxar nomi", unique=True)
     add_time = m.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
 
+    @property
+    def all_student_in_town(self):
+        """ Shaxardagi barcha talabalar """
+        all_student = self.students_set.all().count()
+        return all_student
+
 class Neighborhood(mM):
+    """ Tuman va Shahar dagi barcha mahallalar """
     name = m.CharField(max_length=length, verbose_name="Mahalla nomi")
     districtandcity = m.ForeignKey(DistrictAndCity, on_delete=m.SET_NULL, null=True, verbose_name="Qaysi tuman (shaxar)da joylashgan")
     add_time = m.DateTimeField(auto_now_add=True)
@@ -24,16 +32,23 @@ class Neighborhood(mM):
     def __str__(self):
         return self.name
 
+    @property
+    def all_student_in_neighborhood(self):
+        """ Barcha talabalar """
+        all_students = self.students_set.all().count()
+        return all_students
 
 class College(mM):
+    """ Tuman va Shahardagi barcha kollegelar """
     name = m.CharField(max_length=length, verbose_name="Kollej nomi", unique=True)
     districtandcity = m.ForeignKey(DistrictAndCity, on_delete=m.SET_NULL, null=True)
     add_time = m.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self):  
         return self.name
 
 class School(mM):
+    """ Barcha maktablar """
     number = m.IntegerField(verbose_name="Maktab raqami")
     districtandcity = m.ForeignKey(DistrictAndCity, on_delete=m.SET_NULL, null=True)
     add_time = m.DateTimeField(auto_now_add=True)
@@ -42,6 +57,7 @@ class School(mM):
         return f"{self.number}-umumiy ta'lim maktbi" 
 
 class University(mM):
+    """ OTM nomlari """
     name = m.CharField(max_length=length, verbose_name="OTM nomi", unique=True)
     add_time = m.DateTimeField(auto_now_add=True)
 
@@ -49,6 +65,7 @@ class University(mM):
         return self.name
 
 class Interest(mM):
+    """ Qiziqishlar """
     name = m.CharField(verbose_name="Qiziqish nomi", max_length=length, unique=True)
     add_time = m.DateTimeField(auto_now_add=True)
 
@@ -56,6 +73,7 @@ class Interest(mM):
         return self.name
 
 class Opportunity(mM):
+    """ Imkonyatlar """
     name = m.CharField(max_length=length, verbose_name="Imkonyatlar nomi", unique=True)
     add_time = m.DateTimeField(auto_now_add=True)
 
@@ -63,6 +81,7 @@ class Opportunity(mM):
         return self.name
 
 class Foreign_language(mM):
+    """ Chet tilari """
     name = m.CharField(max_length=length, verbose_name="Chet tili nomi", unique=True)
     add_time = m.DateTimeField(auto_now_add=True)
 
@@ -70,6 +89,7 @@ class Foreign_language(mM):
         return self.name
 
 class Students(mM):
+    """ Talabalar """
     f_name = m.CharField(max_length=length, verbose_name="F.I.O")
     student_img = m.ImageField(upload_to='student_images/')
     email = m.EmailField(max_length=length, verbose_name="E-Pochta")
