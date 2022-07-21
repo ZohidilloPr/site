@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="my-5">
+        Bu yil {% now "Y" %}
+    </h1>
+    <table class="table mt-5 table-dark table-hover table-striped shadow-lg rounded">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">F.I.SH</th>
+                <th scope="col">Maktab №</th>
+                <th scope="col">Sinf №</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in stu %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.f_name }}</td>
+                    <td> {{ i.maktab }} </td>
+                    <td> {{ i.sinf_raqam }} </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <th colspan="4" class="text-center">
+                        <span>Hozirda o'quvchilar yoq!</span>
+                    </th>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
